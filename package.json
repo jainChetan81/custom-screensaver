@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"publish:local": "npm run build && rsync -a --delete dist/ \"$HOME/Library/Application Support/custom-screensaver/dist/\""
 	},
 	"devDependencies": {
 		"typescript": "^5.8.3",
