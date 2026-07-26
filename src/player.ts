@@ -3,6 +3,7 @@ import { savePref } from "./storage";
 
 export interface PlayerOptions {
 	intervalMs: number;
+	shuffle: boolean;
 }
 
 export class Player {
@@ -65,10 +66,31 @@ export class Player {
 	}
 
 	toggleLock(): void {
-		this.locked = !this.locked;
+		this.setLocked(!this.locked);
+	}
+
+	setLocked(locked: boolean): void {
+		this.locked = locked;
 		this.schedule();
 		const scene = this.current;
 		if (scene) this.onChange?.(scene, this.locked);
+	}
+
+	setIntervalMs(ms: number): void {
+		this.opts.intervalMs = ms;
+		this.schedule();
+	}
+
+	setShuffle(shuffle: boolean): void {
+		this.opts.shuffle = shuffle;
+	}
+
+	get intervalMs(): number {
+		return this.opts.intervalMs;
+	}
+
+	get shuffle(): boolean {
+		return this.opts.shuffle;
 	}
 
 	private schedule(): void {
@@ -85,7 +107,12 @@ export class Player {
 			this.schedule();
 			return;
 		}
-		const pick = eligible[Math.floor(Math.random() * eligible.length)];
-		this.show(pick.i);
+		if (this.opts.shuffle) {
+			this.show(eligible[Math.floor(Math.random() * eligible.length)].i);
+		} else {
+			// Sequential: first eligible scene after the current one, wrapping.
+			const following = eligible.find(({ i }) => i > this.index) ?? eligible[0];
+			this.show(following.i);
+		}
 	}
 }

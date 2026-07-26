@@ -40,7 +40,8 @@ body.hide-cursor {
 /* ---- Controls overlay ---- */
 .controls {
 	position: fixed;
-	bottom: 28px;
+	/* High enough to clear the macOS Dock when running as wallpaper. */
+	bottom: 120px;
 	left: 50%;
 	transform: translateX(-50%);
 	display: flex;
@@ -88,6 +89,57 @@ body.hide-cursor {
 
 .controls.controls-locked .controls-lock {
 	color: #ffd166;
+}
+
+.controls button.controls-active {
+	background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---- Settings panel ---- */
+.settings {
+	position: fixed;
+	bottom: 178px;
+	left: 50%;
+	transform: translateX(-50%) translateY(6px);
+	display: none;
+	flex-direction: column;
+	gap: 10px;
+	min-width: 220px;
+	padding: 14px 16px;
+	border-radius: 16px;
+	background: rgba(20, 20, 24, 0.78);
+	backdrop-filter: blur(16px);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	color: #fff;
+	font-size: 13px;
+	z-index: 10;
+}
+
+.settings.settings-open {
+	display: flex;
+}
+
+.settings-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	cursor: pointer;
+}
+
+.settings-row select {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 8px;
+	padding: 3px 6px;
+	font-size: 13px;
+}
+
+.settings-row input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	accent-color: #6ee7b7;
 }
 
 /* ---- Aurora scene ---- */

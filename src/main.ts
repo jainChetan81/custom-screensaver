@@ -16,9 +16,12 @@ const params = new URLSearchParams(location.search);
 const wallpaperMode = params.get("mode") === "wallpaper";
 
 const app = document.getElementById("app")!;
+const savedInterval = Number(loadPref("interval")) * 1000 || ROTATE_MS;
 const player = new Player(app, scenes, {
-	intervalMs: Number(params.get("interval")) * 1000 || ROTATE_MS,
+	intervalMs: Number(params.get("interval")) * 1000 || savedInterval,
+	shuffle: loadPref("shuffle") !== "0",
 });
+player.locked = loadPref("autorotate") === "0";
 
 // In wallpaper mode the overlay stays dormant until mouse events actually
 // arrive (i.e. Plash Browsing Mode is on) — a plain wallpaper never gets them.
