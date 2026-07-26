@@ -31,9 +31,15 @@ export function starfieldScene(): Scene {
 			host.appendChild(canvas);
 			const ctx = canvas.getContext("2d")!;
 
+			let width = 0;
+			let height = 0;
 			const resize = () => {
-				canvas!.width = host.clientWidth;
-				canvas!.height = host.clientHeight;
+				const dpr = window.devicePixelRatio || 1;
+				width = host.clientWidth;
+				height = host.clientHeight;
+				canvas!.width = width * dpr;
+				canvas!.height = height * dpr;
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			};
 			resize();
 			onResize = resize;
@@ -41,14 +47,14 @@ export function starfieldScene(): Scene {
 
 			const stars: Star[] = Array.from({ length: STAR_COUNT }, () => {
 				const star = { x: 0, y: 0, z: 0, pz: 0 };
-				resetStar(star, canvas!.width, canvas!.height, true);
+				resetStar(star, width, height, true);
 				return star;
 			});
 
 			const animate = () => {
 				raf = requestAnimationFrame(animate);
-				const w = canvas!.width;
-				const h = canvas!.height;
+				const w = width;
+				const h = height;
 				const cx = w / 2;
 				const cy = h / 2;
 				ctx.fillStyle = "rgba(0, 0, 5, 0.4)";

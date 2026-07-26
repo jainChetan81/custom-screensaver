@@ -3,7 +3,10 @@ import type { Scene } from "./scene";
 
 const HIDE_AFTER_MS = 3000;
 
-export function initControls(player: Player): (scene: Scene, locked: boolean) => void {
+export function initControls(
+	player: Player,
+	opts: { startHidden?: boolean } = {},
+): (scene: Scene, locked: boolean) => void {
 	const bar = document.createElement("div");
 	bar.className = "controls";
 
@@ -32,7 +35,8 @@ export function initControls(player: Player): (scene: Scene, locked: boolean) =>
 		}, HIDE_AFTER_MS);
 	};
 	window.addEventListener("mousemove", show);
-	show();
+	if (opts.startHidden) document.body.classList.add("hide-cursor");
+	else show();
 
 	window.addEventListener("keydown", (e) => {
 		if (e.key === "ArrowRight") player.next();

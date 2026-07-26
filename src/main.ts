@@ -20,11 +20,9 @@ const player = new Player(app, scenes, {
 	intervalMs: Number(params.get("interval")) * 1000 || ROTATE_MS,
 });
 
-if (!wallpaperMode) {
-	player.onChange = initControls(player);
-} else {
-	document.body.classList.add("hide-cursor");
-}
+// In wallpaper mode the overlay stays dormant until mouse events actually
+// arrive (i.e. Plash Browsing Mode is on) — a plain wallpaper never gets them.
+player.onChange = initControls(player, { startHidden: wallpaperMode });
 
 const requested = params.get("scene") ?? loadPref("last-scene");
 let start = scenes.findIndex((s) => s.id === requested);

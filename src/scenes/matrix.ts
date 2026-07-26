@@ -40,10 +40,16 @@ export function matrixScene(): Scene {
 			const ctx = canvas.getContext("2d")!;
 			let glyphs: Glyph[] = [];
 
+			let width = 0;
+			let height = 0;
 			const resize = () => {
-				canvas!.width = host.clientWidth;
-				canvas!.height = host.clientHeight;
-				const columns = Math.ceil(canvas!.width / FONT_SIZE);
+				const dpr = window.devicePixelRatio || 1;
+				width = host.clientWidth;
+				height = host.clientHeight;
+				canvas!.width = width * dpr;
+				canvas!.height = height * dpr;
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+				const columns = Math.ceil(width / FONT_SIZE);
 				glyphs = Array.from({ length: columns }, (_, i) => new Glyph(i));
 			};
 			resize();
@@ -59,11 +65,11 @@ export function matrixScene(): Scene {
 				if (timer < FRAME_MS) return;
 				timer = 0;
 				ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-				ctx.fillRect(0, 0, canvas!.width, canvas!.height);
+				ctx.fillRect(0, 0, width, height);
 				ctx.fillStyle = "#0affa0";
 				ctx.font = `${FONT_SIZE}px monospace`;
 				ctx.textAlign = "center";
-				for (const glyph of glyphs) glyph.draw(ctx, canvas!.height);
+				for (const glyph of glyphs) glyph.draw(ctx, height);
 			};
 			raf = requestAnimationFrame(animate);
 		},
