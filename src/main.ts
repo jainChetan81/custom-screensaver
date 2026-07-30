@@ -3,6 +3,7 @@ import { initControls } from "./controls";
 import { Player } from "./player";
 import { auroraScene } from "./scenes/aurora";
 import { clockScene } from "./scenes/clock";
+import { firefliesScene } from "./scenes/fireflies";
 import { matrixScene } from "./scenes/matrix";
 import { photosScene } from "./scenes/photos";
 import { rainScene } from "./scenes/rain";
@@ -11,7 +12,15 @@ import { loadPref } from "./storage";
 
 const ROTATE_MS = 2 * 60 * 1000;
 
-const scenes = [matrixScene(), starfieldScene(), auroraScene(), rainScene(), clockScene(), photosScene()];
+const scenes = [
+	matrixScene(),
+	starfieldScene(),
+	auroraScene(),
+	rainScene(),
+	firefliesScene(),
+	clockScene(),
+	photosScene(),
+];
 
 const params = new URLSearchParams(location.search);
 const wallpaperMode = params.get("mode") === "wallpaper";
