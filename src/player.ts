@@ -31,6 +31,10 @@ export class Player {
 		return this.index >= 0 ? this.scenes[this.index] : null;
 	}
 
+	get sceneCount(): number {
+		return this.scenes.length;
+	}
+
 	show(index: number): void {
 		this.index = (index + this.scenes.length) % this.scenes.length;
 		const scene = this.scenes[this.index];

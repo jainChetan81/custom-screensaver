@@ -99,6 +99,9 @@ export function initControls(
 			toggleFullscreen();
 		} else if (e.key === "Escape") {
 			togglePanel(false);
+		} else if (/^[1-9]$/.test(e.key)) {
+			const index = Number(e.key) - 1;
+			if (index < player.sceneCount) player.show(index);
 		} else {
 			return;
 		}
